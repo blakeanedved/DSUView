@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href='fullcalendar/core/main.css' rel='stylesheet' />
+	<link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+	<link href='fullcalendar/packages/list/main.css' rel='stylesheet' />
+	<link href='fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+	<link rel="stylesheet" href="css/materialize.min.css">
+	<link rel="stylesheet" href="css/master.css">
+	<title>DSUView</title>
+</head>
+
+<body>
+
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Logo</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="#" id="login" style="display: none;">Login</a></li>
+				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
+				<li class="active"><a href="#">Event Calendar</a></li>
+				<li><a href="#">Room Scheduler</a></li>
+				<li><a href="#">Screen Content Manager</a></li>
+			</ul>
+		</div>
+	</nav>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div id="calendar"></div>
+		</div>
+	</div>
+	<div id="newEventModal" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<h4 class="center">New Event</h4>
+				<div class="col s12">
+					<div class="row">
+						<div class="input-field col s6">
+							<input type="text" name="newEventTitle" id="newEventTitle" class="validate">
+							<label for="newEventTitle" id="newEventTitleLabel">Event Title</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" name="newEventLocation" id="newEventLocation" class="validate">
+							<label for="newEventLocation" id="newEventLocationLabel">Event Location</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s3">
+							<input type="text" id="newEventStartDate" class="datepicker">
+							<label for="newEventStartDate" id="newEventStartDateLabel">Start Date</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" id="newEventEndDate" class="datepicker">
+							<label for="newEventEndDate" id="newEventEndDateLabel">End Date</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" id="newEventStartTime" class="timepicker">
+							<label for="newEventStartTime" id="newEventStartTimeLabel">Start Time</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" id="newEventEndTime" class="timepicker">
+							<label for="newEventEndTime" id="newEventEndTimeLabel">End Time</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea id="newEventDesc" class="materialize-textarea"></textarea>
+							<label for="newEventDesc" id="newEventDescLabel">Textarea</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--
+				title
+				info
+				group
+				start date
+				end date
+				start time
+				end time
+			-->
+		</div>
+		<div class="modal-footer">
+			<button class="btn waves-effect waves-light" type="submit" name="action" id="newEventSubmit">Submit
+				<i class="material-icons right">send</i>
+			</button>
+			<button class="btn waves-effect waves-light" type="submit" name="action" id="editEventSubmit">Submit
+				<i class="material-icons right">send</i>
+			</button>
+		</div>
+	</div>
+
+	<script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="js/materialize.min.js"></script>
+	<script src='fullcalendar/core/main.js'></script>
+	<script src='fullcalendar/packages/daygrid/main.js'></script>
+	<script src='fullcalendar/packages/list/main.js'></script>
+	<script src='fullcalendar/packages/timegrid/main.js'></script>
+	<script src='fullcalendar/packages/interaction/main.js'></script>
+	<script src="js/master.js"></script>
+</body>
+
+</html>

@@ -9,10 +9,8 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href='fullcalendar/core/main.css' rel='stylesheet' />
 	<link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
-	<link href='fullcalendar/packages/list/main.css' rel='stylesheet' />
-	<link href='fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
 	<link rel="stylesheet" href="css/materialize.min.css">
-	<link rel="stylesheet" href="css/master.css">
+	<link rel="stylesheet" href="css/eventcalendar.css">
 	<title>DSUView</title>
 </head>
 
@@ -42,13 +40,22 @@
 				<h4 class="center">New Event</h4>
 				<div class="col s12">
 					<div class="row">
-						<div class="input-field col s6">
+						<div class="input-field col s4">
 							<input type="text" name="newEventTitle" id="newEventTitle" class="validate">
 							<label for="newEventTitle" id="newEventTitleLabel">Event Title</label>
 						</div>
-						<div class="input-field col s6">
+						<div class="input-field col s4">
 							<input type="text" name="newEventLocation" id="newEventLocation" class="validate">
 							<label for="newEventLocation" id="newEventLocationLabel">Event Location</label>
+						</div>
+						<div class="input-field col s4">
+							<select id="newEventCategory">
+								<option value="" disabled selected>Pick the Category</option>
+								<option value="Admissions">Admissions</option>
+								<option value="Defensive Security">Defensive Security</option>
+								<option value="Offensive Security">Offensive Security</option>
+							</select>
+							<label>Category</label>
 						</div>
 					</div>
 					<div class="row">
@@ -104,8 +111,6 @@
 	<script src="js/materialize.min.js"></script>
 	<script src='fullcalendar/core/main.js'></script>
 	<script src='fullcalendar/packages/daygrid/main.js'></script>
-	<script src='fullcalendar/packages/list/main.js'></script>
-	<script src='fullcalendar/packages/timegrid/main.js'></script>
 	<script src='fullcalendar/packages/interaction/main.js'></script>
 	<script src="js/master.js"></script>
 </body>

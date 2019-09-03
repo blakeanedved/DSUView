@@ -35,16 +35,21 @@ function randomMaterialColor() {
 	return COLORS[Math.floor(Math.random() * COLORS.length)]
 }
 
-var db;
+var db, calendar;
 
 $(document).ready(function () {
+
+	$('select').formSelect()
+
+	var currentRoles = []
+	var admin = false
 
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig)
 
 	db = firebase.firestore()
 
-	var provider = new firebase.auth.OAuthProvider('microsoft.com');
+	var provider = new firebase.auth.OAuthProvider('microsoft.com')
 	provider.setCustomParameters({
 		tenant: 'cbb5b525-3b95-4d93-9417-4dbb3c89512e'
 	})
@@ -53,16 +58,47 @@ $(document).ready(function () {
 		.then(function (result) {
 			if (result.user) {
 				M.toast({ html: 'You have been successfully logged in.' })
-				$('#login').hide()
-				$('#logout').show()
 			}
 		})
 		.catch(function (error) {
 			M.toast({ html: `Error logging in, ${error}` })
 		})
 
+	function getRoleStatus(user) {
+		db.collection("users").doc(user.uid).get().then(doc => {
+			admin = doc.data().admin
+			currentRoles = doc.data().groups
+			if (admin || currentRoles.length > 0) {
+				calendar.setOption('editable', true)
+				calendar.setOption('selectable', true)
+				$('.fc-newEvent-button').prop('disabled', false).removeClass('fc-state-disabled')
+			}
+			calendar.render()
+		}).catch(error => {
+			console.log('error getting doc: ' + error)
+		})
+	}
 
+	firebase.auth().onAuthStateChanged(function (user) {
+		if (user) {
+			$('#login').hide()
+			$('#logout').show()
 
+			getRoleStatus(user)
+			setTimeout(function () {
+				getRoleStatus(user)
+			}, 5000)
+		} else {
+			$('#logout').hide()
+			$('#login').show()
+			admin = false
+			currentRoles = []
+			calendar.setOption('editable', false)
+			calendar.setOption('selectable', false)
+			calendar.render()
+			$('.fc-newEvent-button').prop('disabled', true).addClass('fc-state-disabled')
+		}
+	})
 
 	$('#editEventSubmit').hide()
 	var calendarEl = document.getElementById("calendar")
@@ -89,53 +125,58 @@ $(document).ready(function () {
 	var newEventEndTime = M.Timepicker.getInstance($('#newEventEndTime'))
 
 	calendar = new FullCalendar.Calendar(calendarEl, {
-		plugins: ['interaction', 'dayGrid', 'list', 'timeGrid'],
+		plugins: ['interaction', 'dayGrid'],
 		defaultView: 'dayGridMonth',
-		eventLimit: true,
 		navLinks: true,
-		editable: true,
+		editable: false,
+		selectable: false,
 		header: {
-			left: 'newEvent prev,next today',
+			left: 'prev,next today',
 			center: 'title',
-			right: 'listDay,listWeek,dayGridMonth'
+			right: 'newEvent'
 		},
 		eventRender: function (info) {
 			$(info.el).addClass('tooltipped')
 			$(info.el).attr('data-position', 'top')
 			$(info.el).attr('data-tooltip', info.event.extendedProps.desc)
 			$(info.el).tooltip()
-			$(info.el).append('<i class="editbtn material-icons">edit</i><i class="removebtn material-icons">close</i>')
-			$(info.el).find(".removebtn").click(function () {
-				currentInfo = info
-				removeCalendarEvent({
-					title: info.event.title,
-					start: info.event.start,
-					end: info.event.end,
-					color: info.event.backgroundColor,
-					textColor: info.event.textColor,
-					extendedProps: info.event.extendedProps
-				})
-			})
-			$(info.el).find(".editbtn").click(function () {
-				currentInfo = info
-				currentEditingDocId = info.event.extendedProps.docId
-				triggerModalClose = true
-				openNewEventModal(
-					info.event.start,
-					info.event.end,
-					info.event.extendedProps.startTime,
-					info.event.extendedProps.endTime,
-					true,
-					{
+			if (admin || currentRoles.indexOf(info.event.extendedProps.category) != -1) {
+				$(info.el).append('<i class="editbtn material-icons">edit</i><i class="removebtn material-icons">close</i>')
+				$(info.el).find(".removebtn").click(function () {
+					currentInfo = info
+					removeCalendarEvent({
 						title: info.event.title,
-						location: info.event.extendedProps.location,
-						desc: info.event.extendedProps.desc
+						start: info.event.start,
+						end: info.event.end,
+						color: info.event.backgroundColor,
+						textColor: info.event.textColor,
+						extendedProps: info.event.extendedProps
 					})
-			})
+				})
+				$(info.el).find(".editbtn").click(function () {
+					currentInfo = info
+					currentEditingDocId = info.event.extendedProps.docId
+					triggerModalClose = true
+					console.log('opening new event modal with: ' + info.event.extendedProps.category)
+					openNewEventModal(
+						info.event.start,
+						info.event.end,
+						info.event.extendedProps.startTime,
+						info.event.extendedProps.endTime,
+						true,
+						{
+							title: info.event.title,
+							location: info.event.extendedProps.location,
+							desc: info.event.extendedProps.desc,
+							category: info.event.extendedProps.category
+						})
+				})
+			}
 		},
 		customButtons: {
 			newEvent: {
 				text: 'Add Event',
+				class: 'addEventBtn',
 				click: function () {
 
 					var today = new Date()
@@ -159,11 +200,8 @@ $(document).ready(function () {
 			}
 		},
 		views: {
-			listDay: { buttonText: 'Day' },
-			listWeek: { buttonText: 'Week' },
 			dayGridMonth: { buttonText: 'Month' }
 		},
-		selectable: true,
 		selectMirror: true,
 		select: function (arg) {
 
@@ -175,15 +213,6 @@ $(document).ready(function () {
 	})
 
 	db.collection("events").get().then((querySnapshot) => {
-
-		if (firebase.auth().currentUser) {
-			$('#logout').show()
-			$('#login').hide()
-		} else {
-			$('#login').show()
-			$('#logout').hide()
-		}
-
 		querySnapshot.forEach((doc) => {
 			calendar.addEvent({
 				title: doc.data().title,
@@ -196,10 +225,10 @@ $(document).ready(function () {
 					location: doc.data().extendedProps.location,
 					startTime: doc.data().extendedProps.startTime,
 					endTime: doc.data().extendedProps.endTime,
+					category: doc.data().extendedProps.category,
 					docId: doc.id
 				}
 			})
-			// console.log(doc.data())
 		})
 	})
 
@@ -207,6 +236,8 @@ $(document).ready(function () {
 	$("#newEventSubmit").click(function () { submitNewEvent(false) })
 
 	calendar.render()
+	$('.fc-newEvent-button').prop('disabled', true).addClass('fc-state-disabled')
+	calendar.setOption('editable', false)
 
 	function submitNewEvent(editing) {
 		var startDate = new Date($("#newEventStartDate").val() + " " + $("#newEventStartTime").val())
@@ -226,6 +257,8 @@ $(document).ready(function () {
 		} else if (endDate < new Date()) {
 			M.toast({ html: 'End date must be after today.' })
 			return
+		} else if (false /* test category here */) {
+
 		}
 		var c = randomMaterialColor()
 		var calEvent = {
@@ -239,6 +272,7 @@ $(document).ready(function () {
 				desc: $("#newEventDesc").val(),
 				startTime: $("#newEventStartTime").val(),
 				endTime: $("#newEventEndTime").val(),
+				category: $("#newEventCategory").val(),
 				docId: ''
 			}
 		}
@@ -273,17 +307,29 @@ $(document).ready(function () {
 		} else {
 			$('#newEventTitle').val('')
 		}
+
 		if (options.location) {
 			$('#newEventLocation').val(options.location)
 			$('#newEventLocationLabel').addClass('active')
 		} else {
 			$('#newEventLocation').val('')
 		}
+
 		if (options.desc) {
 			$('#newEventDesc').val(options.desc)
 			$('#newEventDescLabel').addClass('active')
 		} else {
 			$('#newEventDesc').val('')
+		}
+		M.textareaAutoResize($('#newEventDesc'));
+
+		if (options.category) {
+			console.log(options.category)
+			$('#newEventCategory').val(options.category)
+			$('#newEventCategory option[val="' + options.category + '"]').prop('selected', true)
+			$('#newEventCategory').formSelect()
+		} else {
+			$('#newEventCategory').val('')
 		}
 
 		$('#newEventStartDate').datepicker('setDate', startDate)
@@ -311,8 +357,6 @@ $(document).ready(function () {
 	$('#logout').click(function () {
 		if (confirm("Are you sure that you want to log out?")) {
 			firebase.auth().signOut()
-			$('#logout').hide()
-			$('#login').show()
 			M.toast({ html: 'You have been logged out.' })
 		}
 	})
@@ -327,6 +371,7 @@ $(document).ready(function () {
 	}
 
 	function addCalendarEvent(calEvent) {
+		delete calEvent.extendedProps.docId
 		db.collection('events').add(calEvent).then(function (docRef) {
 			M.toast({ html: `Event added!` })
 			calEvent.extendedProps.docId = docRef._key.path.segments[1]

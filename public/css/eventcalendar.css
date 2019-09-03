@@ -1,0 +1,30 @@
+.editbtn, .removebtn {
+  font-size: 1.5em;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+}
+
+.removebtn {
+  right: 0;
+}
+
+.editbtn {
+  right: 1em;
+}
+
+* {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -o-user-select: text;
+}

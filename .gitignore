@@ -63,3 +63,10 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# cloud firestore rules file
+firestore.rules
+
+# vscode configuration
+.vscode
+.vscode/*

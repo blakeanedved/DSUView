@@ -7,7 +7,6 @@ const db = admin.firestore()
 
 // I dont feel bad about leaking faculty emails, since they are already publicly available through the DSU Directory anyway
 const privilegedUserEmails = {
-
 }
 
 exports.makeUser = functions.auth.user().onCreate((user) => {

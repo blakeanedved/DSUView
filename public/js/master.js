@@ -11,7 +11,13 @@ const firebaseConfig = {
 
 
 const MONTHS = [
-	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec"
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+]
+const FULL_MONTHS = [
+	"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+]
+const WEEK_DAY = [
+	"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ]
 
 const COLORS = [
@@ -43,6 +49,8 @@ $(document).ready(function () {
 
 	var currentRoles = []
 	var admin = false
+
+	var currentFilter = ''
 
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig)
@@ -103,6 +111,7 @@ $(document).ready(function () {
 	$('#editEventSubmit').hide()
 	var calendarEl = document.getElementById("calendar")
 	var newEventModalElem = document.getElementById('newEventModal')
+	var filterModalElem = document.getElementById('filterModal')
 
 	var currentInfo;
 	var currentEditingDocId;
@@ -117,7 +126,16 @@ $(document).ready(function () {
 			}
 		}
 	})
+	M.Modal.init(filterModalElem, {
+		onCloseStart: function () {
+			calendar.rerenderEvents()
+		},
+		onOpenEnd: function () {
+			$('#filterEvents').focus()
+		}
+	})
 	var newEventModal = M.Modal.getInstance(newEventModalElem)
+	var filterModal = M.Modal.getInstance(filterModalElem)
 
 	$('.datepicker').datepicker()
 	M.Timepicker.init($('.timepicker'), { defaultTime: '6:00 AM' })
@@ -133,56 +151,72 @@ $(document).ready(function () {
 		header: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'newEvent'
+			right: 'clearFilter filter newEvent'
 		},
 		eventRender: function (info) {
-			$(info.el).addClass('tooltipped')
-			$(info.el).attr('data-position', 'top')
-			$(info.el).attr('data-tooltip', info.event.extendedProps.desc)
-			$(info.el).tooltip()
-			if (admin || currentRoles.indexOf(info.event.extendedProps.category) != -1) {
-				$(info.el).append('<i class="editbtn material-icons">edit</i><i class="removebtn material-icons">close</i>')
-				$(info.el).find(".removebtn").click(function () {
-					currentInfo = info
-					removeCalendarEvent({
-						title: info.event.title,
-						start: info.event.start,
-						end: info.event.end,
-						color: info.event.backgroundColor,
-						textColor: info.event.textColor,
-						extendedProps: info.event.extendedProps
-					})
-				})
-				$(info.el).find(".editbtn").click(function () {
-					currentInfo = info
-					currentEditingDocId = info.event.extendedProps.docId
-					triggerModalClose = true
-					console.log('opening new event modal with: ' + info.event.extendedProps.category)
-					openNewEventModal(
-						info.event.start,
-						info.event.end,
-						info.event.extendedProps.startTime,
-						info.event.extendedProps.endTime,
-						true,
-						{
+			if (isEventFiltered(info.event)) {
+				$(info.el).addClass('tooltipped')
+				$(info.el).attr('data-position', 'top')
+				$(info.el).attr('data-tooltip', info.event.extendedProps.desc)
+				$(info.el).tooltip()
+				if (admin || currentRoles.indexOf(info.event.extendedProps.category) != -1) {
+					$(info.el).append('<i class="editbtn material-icons">edit</i><i class="removebtn material-icons">close</i>')
+					$(info.el).find(".removebtn").click(function () {
+						currentInfo = info
+						removeCalendarEvent({
 							title: info.event.title,
-							location: info.event.extendedProps.location,
-							desc: info.event.extendedProps.desc,
-							category: info.event.extendedProps.category
+							start: info.event.start,
+							end: info.event.end,
+							color: info.event.backgroundColor,
+							textColor: info.event.textColor,
+							extendedProps: info.event.extendedProps
 						})
-				})
+					})
+					$(info.el).find(".editbtn").click(function () {
+						currentInfo = info
+						currentEditingDocId = info.event.extendedProps.docId
+						triggerModalClose = true
+						console.log('opening new event modal with: ' + info.event.extendedProps.category)
+						openNewEventModal(
+							info.event.start,
+							info.event.end,
+							info.event.extendedProps.startTime,
+							info.event.extendedProps.endTime,
+							true,
+							{
+								title: info.event.title,
+								location: info.event.extendedProps.location,
+								desc: info.event.extendedProps.desc,
+								category: info.event.extendedProps.category
+							})
+					})
+				}
+			} else {
+				return false
 			}
 		},
 		customButtons: {
 			newEvent: {
 				text: 'Add Event',
-				class: 'addEventBtn',
 				click: function () {
-
 					var today = new Date()
 					openNewEventModal(today, today, '6:00 AM', '6:00 PM', false, {})
 
 					newEventModal.open()
+				}
+			},
+			filter: {
+				text: 'Filter',
+				click: function () {
+					filterModal.open()
+				}
+			},
+			clearFilter: {
+				text: 'Clear Filter',
+				click: function () {
+					$('#filterEvents').val('')
+					currentFilter = ''
+					calendar.rerenderEvents()
 				}
 			}
 		},
@@ -360,6 +394,89 @@ $(document).ready(function () {
 			M.toast({ html: 'You have been logged out.' })
 		}
 	})
+
+	$('#filterEventsSubmit').click(function () {
+		currentFilter = $('#filterEvents').val()
+		filterModal.close()
+		calendar.rerenderEvents()
+	})
+
+	$('#filterEvents').on('change blur keyup keydown keypress', e => {
+		currentFilter = $('#filterEvents').val()
+		calendar.rerenderEvents()
+	})
+
+	var ctrlDown = false
+
+	document.addEventListener("keydown", e => {
+		if (e.keyCode == 27) {
+			filterModal.close()
+			newEventModal.close()
+		} else if (e.keyCode == 13) {
+			if (filterModal.isOpen) {
+				filterModal.close()
+			}
+		} else if (e.keyCode == 17) {
+			ctrlDown = true
+		} else if (ctrlDown && e.keyCode == 70) {
+			e.preventDefault()
+			filterModal.open()
+		} else if (ctrlDown && e.keyCode == 83) {
+			e.preventDefault()
+			currentFilter = ''
+			$('#filterEvents').val('')
+		}
+	})
+
+	document.addEventListener("keyup", e => {
+		if (e.keyCode == 17) {
+			ctrlDown = false
+		}
+	})
+
+	function isEventFiltered(calEvent) {
+		console.log(currentFilter)
+		if (currentFilter == '') {
+			return true
+		}
+
+		var filterRegex = '[^\\s]*'
+		for (var i = 0; i < currentFilter.length; i++) {
+			filterRegex += `[${currentFilter[i].toUpperCase()}${currentFilter[i].toLowerCase()}][^\\s]*`
+		}
+
+		console.log(filterRegex)
+
+		var re = new RegExp(filterRegex)
+
+		if (re.test(calEvent.title)
+			|| re.test(calEvent.extendedProps.category)
+			|| re.test(calEvent.extendedProps.desc)
+			|| re.test(calEvent.extendedProps.location)
+			|| re.test(calEvent.extendedProps.startTime)
+			|| re.test(calEvent.extendedProps.endTime)
+			|| re.test(fullDateString(calEvent.start, calEvent.end))
+		) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	function fullDateString(start, end) {
+		datestring = ''
+
+		for (var d = start; d <= end; d.setDate(d.getDate() + 1)) {
+			var date = d.getDate()
+			var month = FULL_MONTHS[d.getMonth()]
+			var year = d.getFullYear()
+			var day = WEEK_DAY[d.getDay()]
+
+			datestring += `${date}, ${month}, ${year}, ${month}, ${day}, ${year}, ${day}, ${date}, ${month}, ${date}`
+		}
+
+		return datestring
+	}
 
 	function removeCalendarEvent(calEvent) {
 		db.collection('events').doc(calEvent.extendedProps.docId).delete().then(function () {

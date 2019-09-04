@@ -18,7 +18,7 @@
 
 	<nav>
 		<div class="nav-wrapper">
-			<a href="#" class="brand-logo">Logo</a>
+			<a href="#" class="left brand-logo">Logo</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a href="#" id="login" style="display: none;">Login</a></li>
 				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
@@ -29,11 +29,31 @@
 		</div>
 	</nav>
 	<br>
+
 	<div class="container">
 		<div class="row">
 			<div id="calendar"></div>
 		</div>
 	</div>
+
+	<div id="filterModal" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<h4>Filter Events</h4>
+				<div class="col s12">
+					<div class="input-field">
+						<input type="text" id="filterEvents" spellcheck="false">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn waves-effect waves-light" type="submit" name="action" id="filterEventsSubmit">Filter
+				<i class="material-icons right">filter_list</i>
+			</button>
+		</div>
+	</div>
+
 	<div id="newEventModal" class="modal">
 		<div class="modal-content">
 			<div class="row">

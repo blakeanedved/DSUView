@@ -48,8 +48,6 @@ db.collection("users").get().then((querySnapshot) => {
 	})
 })
 
-
-
 function datesToString(start, end, startTime, endTime) {
 	return `${WEEK_DAY[start.getDay()]}, ${FULL_MONTHS[start.getMonth()]} ${start.getDate()}${NUM_SUFFIXES[start.getDate()]} at ${startTime} to ${WEEK_DAY[end.getDay()]}, ${FULL_MONTHS[end.getMonth()]} ${end.getDate()}${NUM_SUFFIXES[end.getDate()]} at ${endTime}`
 }

@@ -118,15 +118,13 @@ $(document).ready(function () {
 
 	var currentInfo;
 	var currentEditingDocId;
-	var triggerModalClose = false
 
 	var modalInstances = M.Modal.init(newEventModalElem, {
 		onCloseStart: function () {
-			if (triggerModalClose) {
+			if (currentInfo != null) {
 				calendar.addEvent(currentInfo.event)
-			} else {
-				triggerModalClose = true
 			}
+			currentInfo = null
 		}
 	})
 	M.Modal.init(filterModalElem, {
@@ -188,7 +186,6 @@ $(document).ready(function () {
 					$(info.el).find(".editbtn").click(function () {
 						currentInfo = info
 						currentEditingDocId = info.event.extendedProps.docId
-						triggerModalClose = true
 						openNewEventModal(
 							info.event.start,
 							info.event.end,
@@ -307,8 +304,11 @@ $(document).ready(function () {
 		} else if (endDate < new Date()) {
 			M.toast({ html: 'End date must be after today.' })
 			return
+		} else if (!($('#newEventLocation').val() in ['No Location', 'TC (Trojan Center)', 'EH100 (East Hall Room 100)', 'BIT135 (Beacom Institute of Technology Room 135)'])) {
+			M.toast({ html: 'You must pick one of the available locations.' })
+			return
 		} else if (!($('#newEventCategory').val() in ['Admissions', 'Defensive Security', 'Offensive Security'])) {
-			M.toast({ html: 'You must pick one of the available categories' })
+			M.toast({ html: 'You must pick one of the available categories.' })
 			return
 		}
 		var c = randomMaterialColor()
@@ -335,7 +335,6 @@ $(document).ready(function () {
 		} else {
 			addCalendarEvent(calEvent)
 		}
-		triggerModalClose = false
 		newEventModal.close()
 	}
 
@@ -361,7 +360,8 @@ $(document).ready(function () {
 
 		if (options.location) {
 			$('#newEventLocation').val(options.location)
-			$('#newEventLocationLabel').addClass('active')
+			$('#newEventLocation option[val="' + options.location + '"]').prop('selected', true)
+			$('#newEventLocation').formSelect()
 		} else {
 			$('#newEventLocation').val('')
 		}

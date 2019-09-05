@@ -23,8 +23,8 @@
 				<li><a href="#" id="login" style="display: none;">Login</a></li>
 				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
 				<li class="active"><a href="#">Event Calendar</a></li>
-				<li><a href="#">Room Scheduler</a></li>
-				<li><a href="#">Screen Content Manager</a></li>
+				<!-- <li><a href="#">Room Scheduler</a></li>
+				<li><a href="#">Screen Content Manager</a></li> -->
 			</ul>
 		</div>
 	</nav>
@@ -89,8 +89,16 @@
 							<label for="newEventTitle" id="newEventTitleLabel">Event Title</label>
 						</div>
 						<div class="input-field col s4">
-							<input type="text" name="newEventLocation" id="newEventLocation" class="validate">
-							<label for="newEventLocation" id="newEventLocationLabel">Event Location</label>
+							<select id="newEventLocation">
+								<option value="" disabled selected>Pick the Location</option>
+								<option value="No Location">No Location</option>
+								<option value="TC (Trojan Center)">TC (Trojan Center)</option>
+								<option value="EH100 (East Hall Room 100)">EH100 (East Hall Room 100)</option>
+								<option value="BIT135 (Beacom Institute of Technology Room 135)">BIT135 (Beacom
+									Institute of Technology Room 135)
+								</option>
+							</select>
+							<label>Location</label>
 						</div>
 						<div class="input-field col s4">
 							<select id="newEventCategory">

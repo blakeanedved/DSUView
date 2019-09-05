@@ -9,7 +9,6 @@ const firebaseConfig = {
 	appId: "1:947813853337:web:e148d807a2bf092b"
 };
 
-
 const MONTHS = [
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ]
@@ -18,6 +17,9 @@ const FULL_MONTHS = [
 ]
 const WEEK_DAY = [
 	"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+]
+const NUM_SUFFIXES = [
+	"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "st"
 ]
 
 const COLORS = [
@@ -112,6 +114,7 @@ $(document).ready(function () {
 	var calendarEl = document.getElementById("calendar")
 	var newEventModalElem = document.getElementById('newEventModal')
 	var filterModalElem = document.getElementById('filterModal')
+	var eventInfoModalElem = document.getElementById('eventInfoModal')
 
 	var currentInfo;
 	var currentEditingDocId;
@@ -134,8 +137,18 @@ $(document).ready(function () {
 			$('#filterEvents').focus()
 		}
 	})
+	M.Modal.init(eventInfoModalElem, {
+		onCloseEnd: function () {
+			$('#eventInfoTitle').text('Title')
+			$('#eventInfoDesc').html('Description')
+			$('#eventInfoCategory').text('Category')
+			$('#eventInfoLocation').text('Location')
+			$('#eventInfoWhen').text('Timeframe')
+		}
+	})
 	var newEventModal = M.Modal.getInstance(newEventModalElem)
 	var filterModal = M.Modal.getInstance(filterModalElem)
+	var eventInfoModal = M.Modal.getInstance(eventInfoModalElem)
 
 	$('.datepicker').datepicker()
 	M.Timepicker.init($('.timepicker'), { defaultTime: '6:00 AM' })
@@ -176,7 +189,6 @@ $(document).ready(function () {
 						currentInfo = info
 						currentEditingDocId = info.event.extendedProps.docId
 						triggerModalClose = true
-						console.log('opening new event modal with: ' + info.event.extendedProps.category)
 						openNewEventModal(
 							info.event.start,
 							info.event.end,
@@ -190,6 +202,10 @@ $(document).ready(function () {
 								category: info.event.extendedProps.category
 							})
 					})
+				} else {
+					$(info.el).click(function () {
+						openEventInfoModal(info.event)
+					}).css('cursor', 'pointer')
 				}
 			} else {
 				return false
@@ -291,8 +307,9 @@ $(document).ready(function () {
 		} else if (endDate < new Date()) {
 			M.toast({ html: 'End date must be after today.' })
 			return
-		} else if (false /* test category here */) {
-
+		} else if (!($('#newEventCategory').val() in ['Admissions', 'Defensive Security', 'Offensive Security'])) {
+			M.toast({ html: 'You must pick one of the available categories' })
+			return
 		}
 		var c = randomMaterialColor()
 		var calEvent = {
@@ -358,7 +375,6 @@ $(document).ready(function () {
 		M.textareaAutoResize($('#newEventDesc'));
 
 		if (options.category) {
-			console.log(options.category)
 			$('#newEventCategory').val(options.category)
 			$('#newEventCategory option[val="' + options.category + '"]').prop('selected', true)
 			$('#newEventCategory').formSelect()
@@ -382,6 +398,19 @@ $(document).ready(function () {
 		$('#newEventEndTimeLabel').addClass('active')
 
 		newEventModal.open()
+	}
+
+	function openEventInfoModal(calEvent) {
+		$('#eventInfoTitle').text(calEvent.title)
+		$('#eventInfoDesc').html(calEvent.extendedProps.desc)
+		$('#eventInfoCategory').text(calEvent.extendedProps.category)
+		$('#eventInfoLocation').text(calEvent.extendedProps.location)
+		$('#eventInfoWhen').text(datesToString(calEvent))
+		eventInfoModal.open()
+	}
+
+	function datesToString(calEvent) {
+		return `${WEEK_DAY[calEvent.start.getDay()]}, ${FULL_MONTHS[calEvent.start.getMonth()]} ${calEvent.start.getDate()}${NUM_SUFFIXES[calEvent.start.getDate()]} at ${calEvent.extendedProps.startTime} to ${WEEK_DAY[calEvent.end.getDay()]}, ${FULL_MONTHS[calEvent.end.getMonth()]} ${calEvent.end.getDate()}${NUM_SUFFIXES[calEvent.end.getDate()]} at ${calEvent.extendedProps.endTime}`
 	}
 
 	$('#login').click(function () {
@@ -416,15 +445,27 @@ $(document).ready(function () {
 			if (filterModal.isOpen) {
 				filterModal.close()
 			}
+			// TODO: close newEventModal on enter too and submit event
 		} else if (e.keyCode == 17) {
 			ctrlDown = true
 		} else if (ctrlDown && e.keyCode == 70) {
 			e.preventDefault()
-			filterModal.open()
+			if (filterModal.isOpen) {
+				filterModal.close()
+			} else {
+				filterModal.open()
+			}
 		} else if (ctrlDown && e.keyCode == 83) {
 			e.preventDefault()
 			currentFilter = ''
 			$('#filterEvents').val('')
+		} else if (ctrlDown && e.keyCode == 78) {
+			e.preventDefault()
+			if (newEventModal.isOpen) {
+				newEventModal.close()
+			} else {
+				newEventModal.open()
+			}
 		}
 	})
 
@@ -435,7 +476,6 @@ $(document).ready(function () {
 	})
 
 	function isEventFiltered(calEvent) {
-		console.log(currentFilter)
 		if (currentFilter == '') {
 			return true
 		}
@@ -444,8 +484,6 @@ $(document).ready(function () {
 		for (var i = 0; i < currentFilter.length; i++) {
 			filterRegex += `[${currentFilter[i].toUpperCase()}${currentFilter[i].toLowerCase()}][^\\s]*`
 		}
-
-		console.log(filterRegex)
 
 		var re = new RegExp(filterRegex)
 

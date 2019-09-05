@@ -7,8 +7,8 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href='fullcalendar/core/main.css' rel='stylesheet' />
-	<link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+	<link href='fullcalendar/core/main.min.css' rel='stylesheet' />
+	<link href='fullcalendar/packages/daygrid/main.min.css' rel='stylesheet' />
 	<link rel="stylesheet" href="css/materialize.min.css">
 	<link rel="stylesheet" href="css/eventcalendar.css">
 	<title>DSUView</title>
@@ -51,6 +51,30 @@
 			<button class="btn waves-effect waves-light" type="submit" name="action" id="filterEventsSubmit">Filter
 				<i class="material-icons right">filter_list</i>
 			</button>
+		</div>
+	</div>
+
+	<div id="eventInfoModal" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<h3 id="eventInfoTitle">Event</h3>
+				<p id="eventInfoDesc">stuff stuff stuff</p>
+			</div>
+
+			<div class="row">
+				<div class="col 12">
+					<h5>Category</h5>
+					<p id="eventInfoCategory">group</p>
+				</div>
+				<div class="col s12">
+					<h5>Location</h5>
+					<p id="eventInfoLocation">place</p>
+				</div>
+				<div class="col s12">
+					<h5>When</h5>
+					<p id="eventInfoWhen">now to never</p>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -104,15 +128,6 @@
 					</div>
 				</div>
 			</div>
-			<!--
-				title
-				info
-				group
-				start date
-				end date
-				start time
-				end time
-			-->
 		</div>
 		<div class="modal-footer">
 			<button class="btn waves-effect waves-light" type="submit" name="action" id="newEventSubmit">Submit
@@ -129,10 +144,10 @@
 	<script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="js/materialize.min.js"></script>
-	<script src='fullcalendar/core/main.js'></script>
-	<script src='fullcalendar/packages/daygrid/main.js'></script>
-	<script src='fullcalendar/packages/interaction/main.js'></script>
-	<script src="js/master.js"></script>
+	<script src='fullcalendar/core/main.min.js'></script>
+	<script src='fullcalendar/packages/daygrid/main.min.js'></script>
+	<script src='fullcalendar/packages/interaction/main.min.js'></script>
+	<script src="js/eventcalendar.js"></script>
 </body>
 
 </html>

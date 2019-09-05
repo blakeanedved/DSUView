@@ -70,3 +70,4 @@ firestore.rules
 # vscode configuration
 .vscode
 .vscode/*
+categorylocations.txt

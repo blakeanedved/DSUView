@@ -12,6 +12,7 @@ const privilegedUserEmails = {
 exports.makeUser = functions.auth.user().onCreate((user) => {
 	if (user.email in privilegedUserEmails) {
 		db.collection('users').doc(user.uid).set({
+			email: user.email,
 			admin: privilegedUserEmails[user.email].admin,
 			groups: privilegedUserEmails[user.email].groups
 		}).then(function () { })
@@ -31,6 +32,6 @@ exports.makeUser = functions.auth.user().onCreate((user) => {
 			})
 		}
 	} else {
-		db.collection('users').doc(user.uid).set({ admin: false, groups: [] }).then(function () { })
+		db.collection('users').doc(user.uid).set({ email: user.email, admin: false, groups: [] }).then(function () { })
 	}
 })

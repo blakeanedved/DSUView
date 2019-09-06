@@ -304,10 +304,10 @@ $(document).ready(function () {
 		} else if (endDate < new Date()) {
 			M.toast({ html: 'End date must be after today.' })
 			return
-		} else if (!($('#newEventLocation').val() in ['No Location', 'TC (Trojan Center)', 'EH100 (East Hall Room 100)', 'BIT135 (Beacom Institute of Technology Room 135)'])) {
+		} else if (['No Location', 'TC (Trojan Center)', 'EH100 (East Hall Room 100)', 'BIT135 (Beacom Institute of Technology Room 135)'].indexOf($('#newEventLocation').val()) == -1) {
 			M.toast({ html: 'You must pick one of the available locations.' })
 			return
-		} else if (!($('#newEventCategory').val() in ['Admissions', 'Defensive Security', 'Offensive Security'])) {
+		} else if (['Admissions', 'Defensive Security', 'Offensive Security'].indexOf($('#newEventCategory').val()) == -1) {
 			M.toast({ html: 'You must pick one of the available categories.' })
 			return
 		}

@@ -5,26 +5,26 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/materialize.min.css">
+	<link rel="stylesheet" href="css/master.css">
+	<link rel="stylesheet" href="css/eventcalendar.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href='fullcalendar/core/main.min.css' rel='stylesheet' />
 	<link href='fullcalendar/packages/daygrid/main.min.css' rel='stylesheet' />
-	<link rel="stylesheet" href="css/materialize.min.css">
-	<link rel="stylesheet" href="css/eventcalendar.css">
 	<title>DSUView</title>
 </head>
 
 <body>
 
 	<nav>
-		<div class="nav-wrapper">
-			<a href="#" class="left brand-logo">Logo</a>
+		<div class="nav-wrapper container">
+			<img class="brand-logo" src="res/logo-1.png" alt="Logo">
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a href="#" id="login" style="display: none;">Login</a></li>
 				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
-				<li class="active"><a href="#">Event Calendar</a></li>
-				<!-- <li><a href="#">Room Scheduler</a></li>
-				<li><a href="#">Screen Content Manager</a></li> -->
+				<li class="active"><a href="#">Events</a></li>
+				<!-- <li><a href="#">Rooms</a></li>
+				<li><a href="#">Screens</a></li> -->
 			</ul>
 		</div>
 	</nav>
@@ -39,7 +39,7 @@
 	<div id="filterModal" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<h4>Filter Events</h4>
+				<h4 class="modalTitle">Filter Events</h4>
 				<div class="col s12">
 					<div class="input-field">
 						<input type="text" id="filterEvents" spellcheck="false">
@@ -57,7 +57,7 @@
 	<div id="eventInfoModal" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<h3 id="eventInfoTitle">Event</h3>
+				<h3 id="eventInfoTitle" class="modalTitle">Event</h3>
 				<p id="eventInfoDesc">stuff stuff stuff</p>
 			</div>
 
@@ -81,7 +81,7 @@
 	<div id="newEventModal" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<h4 class="center">New Event</h4>
+				<h4 class="center  modalTitle">New Event</h4>
 				<div class="col s12">
 					<div class="row">
 						<div class="input-field col s4">
@@ -92,11 +92,17 @@
 							<select id="newEventLocation">
 								<option value="" disabled selected>Pick the Location</option>
 								<option value="No Location">No Location</option>
-								<option value="TC (Trojan Center)">TC (Trojan Center)</option>
-								<option value="EH100 (East Hall Room 100)">EH100 (East Hall Room 100)</option>
-								<option value="BIT135 (Beacom Institute of Technology Room 135)">BIT135 (Beacom
-									Institute of Technology Room 135)
-								</option>
+								<optgroup label="Trojan Center">
+									<option value="TC (Trojan Center)">TC (Trojan Center)</option>
+								</optgroup>
+								<optgroup label="East Hall">
+									<option value="EH100 (East Hall Room 100)">EH100 (East Hall Room 100)</option>
+								</optgroup>
+								<optgroup label="Beacom Institute of Technology">
+									<option value="BIT135 (Beacom Institute of Technology Room 135)">BIT135 (Beacom
+										Institute of Technology Room 135)
+									</option>
+								</optgroup>
 							</select>
 							<label>Location</label>
 						</div>

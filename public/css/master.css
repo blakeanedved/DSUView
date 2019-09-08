@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Crimson+Text&display=swap");
+nav .nav-wrapper .brand-logo {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+body {
+  background-image: url(../res/body-hex.jpg);
+  background-size: auto 100%;
+  background-position-x: right;
+  background-repeat: no-repeat;
+  font-family: Roboto, Helvetica, Arial, Sans-Serif !important;
+}
+
+* {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -o-user-select: text;
+}
+
+nav {
+  background-color: #FFFFFF;
+  height: 100px !important;
+  line-height: 100px !important;
+}
+nav .nav-wrapper .brand-logo {
+  height: 80px;
+  width: auto;
+}
+nav .nav-wrapper ul li a {
+  font-size: 1.3em;
+  color: #004165;
+}
+nav .nav-wrapper ul li.active a {
+  color: #FFFFFF;
+  background-color: #004165;
+}
+nav .nav-wrapper ul li:hover a {
+  background-color: #ADAFAF;
+}
+nav .nav-wrapper ul li.active:hover a {
+  background-color: #004165;
+}
+
+.fc-dayGridMonth-view {
+  background-color: #FFFFFF !important;
+}
+
+.btn {
+  background-color: #00A9E0 !important;
+}
+
+.fc-button {
+  background-color: #4D4F53 !important;
+}
+
+#eventInfoModal {
+  font-family: Crimson Text, Georgia, Serif !important;
+}
+
+#eventInfoTitle {
+  font-family: Roboto, Helvetica, Arial, Sans-Serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #004165 !important;
+}
+
+/*# sourceMappingURL=master.css.map */

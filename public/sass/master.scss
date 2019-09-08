@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text&display=swap');
+
+$title-font-stack: Roboto, Helvetica, Arial, Sans-Serif;
+$body-font-stack: Crimson Text, Georgia, Serif;
+
+$white: 		#FFFFFF;
+$darkBlue: 		#004165;
+$lightBlue:		#00A9E0;
+$lightGray:		#ADAFAF;
+$darkGray:		#4D4F53;
+
+$accentTan:		#A79E70;
+$accentAqua:	#50C9B5;
+$accentRed:		#9E3039;
+$accentOrange:	#E37222;
+$accentPurple:	#93509E;
+
+$navbarHeight: 100px;
+
+%center-vertically {
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+body {
+    background-image: url(../res/body-hex.jpg);
+    background-size: auto 100%;
+    background-position-x: right;
+	background-repeat: no-repeat;
+	
+	font-family: $title-font-stack !important;
+}
+
+* {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+}
+
+input, textarea {
+	user-select: text;
+	-moz-user-select: text;
+	-khtml-user-select: text;
+	-webkit-user-select: text;
+	-o-user-select: text;
+}
+
+nav {
+	background-color: $white;
+	height: $navbarHeight !important;
+	line-height: $navbarHeight !important;
+
+	.nav-wrapper {
+
+		.brand-logo {
+			@extend %center-vertically;
+
+			height: $navbarHeight - 20px;
+			width: auto;
+		}
+
+		ul {
+			li {
+				a {
+					font-size: 1.3em;
+					color: $darkBlue;
+				}
+			}
+			li.active {
+				a {
+					color: $white;
+					background-color: $darkBlue;
+				}
+			}
+			li:hover {
+				a {
+					background-color: $lightGray;
+				}
+			}
+			li.active:hover {
+				a {
+					background-color: $darkBlue;
+				}
+			}
+		}
+	}
+}
+
+.fc-dayGridMonth-view {
+	background-color: $white !important;
+}
+
+.btn {
+	background-color: $lightBlue !important;
+}
+
+.fc-button {
+	background-color: $darkGray !important;
+}
+
+#eventInfoModal {
+	font-family: $body-font-stack !important;
+}
+
+#eventInfoTitle {
+	font-family: $title-font-stack !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: $darkBlue !important;
+}

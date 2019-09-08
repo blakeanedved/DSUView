@@ -22,22 +22,33 @@ const NUM_SUFFIXES = [
 	"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th", "th", "st"
 ]
 
+// const COLORS = [
+// 	['#f44336', '#FFFFFF'],
+// 	['#e91e63', '#FFFFFF'],
+// 	['#9c27b0', '#FFFFFF'],
+// 	['#673ab7', '#FFFFFF'],
+// 	['#3f51b5', '#FFFFFF'],
+// 	['#2196f3', '#FFFFFF'],
+// 	['#03a9f4', '#FFFFFF'],
+// 	['#00bcd4', '#FFFFFF'],
+// 	['#009688', '#FFFFFF'],
+// 	['#4caf50', '#FFFFFF'],
+// 	['#8bc34a', '#FFFFFF'],
+// 	['#ff9800', '#FFFFFF'],
+// 	['#ff5722', '#FFFFFF'],
+// 	['#607d8b', '#FFFFFF']
+// ]
 const COLORS = [
-	['#f44336', '#FFFFFF'],
-	['#e91e63', '#FFFFFF'],
-	['#9c27b0', '#FFFFFF'],
-	['#673ab7', '#FFFFFF'],
-	['#3f51b5', '#FFFFFF'],
-	['#2196f3', '#FFFFFF'],
-	['#03a9f4', '#FFFFFF'],
-	['#00bcd4', '#FFFFFF'],
-	['#009688', '#FFFFFF'],
-	['#4caf50', '#FFFFFF'],
-	['#8bc34a', '#FFFFFF'],
-	['#ff9800', '#FFFFFF'],
-	['#ff5722', '#FFFFFF'],
-	['#607d8b', '#FFFFFF']
+	['#A79E70', '#FFFFFF'],
+	['#50C9B5', '#FFFFFF'],
+	['#9E3039', '#FFFFFF'],
+	['#E37222', '#FFFFFF'],
+	['#93509E', '#FFFFFF'],
+	['#004165', '#FFFFFF'],
+	['#00A9E0', '#FFFFFF'],
+	['#4D4F53', '#FFFFFF']
 ]
+
 
 function randomMaterialColor() {
 	return COLORS[Math.floor(Math.random() * COLORS.length)]
@@ -160,7 +171,7 @@ $(document).ready(function () {
 		editable: false,
 		selectable: false,
 		header: {
-			left: 'prev,next today',
+			left: 'prev,next today copyICSLink',
 			center: 'title',
 			right: 'clearFilter filter newEvent'
 		},
@@ -230,6 +241,13 @@ $(document).ready(function () {
 					$('#filterEvents').val('')
 					currentFilter = ''
 					calendar.rerenderEvents()
+				}
+			},
+			copyICSLink: {
+				text: 'Copy ICS Link',
+				click: function () {
+					copyTextToClipboard('https://firebasestorage.googleapis.com/v0/b/dsuview.appspot.com/o/EventsCalendar.ics?alt=media&token=1ca03e2b-93ad-4d69-a889-7461a639bb28')
+					M.toast({ html: 'ICS link copied to clipboard.' })
 				}
 			}
 		},
@@ -552,5 +570,35 @@ $(document).ready(function () {
 			M.toast({ html: `Error editing event, ${error}` })
 			currentInfo.revert()
 		})
+	}
+
+	function fallbackCopyTextToClipboard(text) {
+		var textArea = document.createElement("textarea");
+		textArea.value = text;
+		document.body.appendChild(textArea);
+		textArea.focus();
+		textArea.select();
+
+		try {
+			var successful = document.execCommand('copy');
+			var msg = successful ? 'successful' : 'unsuccessful';
+			console.log('Fallback: Copying text command was ' + msg);
+		} catch (err) {
+			console.error('Fallback: Oops, unable to copy', err);
+		}
+
+		document.body.removeChild(textArea);
+	}
+
+	function copyTextToClipboard(text) {
+		if (!navigator.clipboard) {
+			fallbackCopyTextToClipboard(text);
+			return;
+		}
+		navigator.clipboard.writeText(text).then(function () {
+			console.log('Async: Copying to clipboard was successful!');
+		}, function (err) {
+			console.error('Async: Could not copy text: ', err);
+		});
 	}
 })

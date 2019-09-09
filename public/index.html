@@ -18,16 +18,24 @@
 
 	<nav>
 		<div class="nav-wrapper container">
+			<a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 			<img class="brand-logo" src="res/logo-1.png" alt="Logo">
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="#" id="login" style="display: none;">Login</a></li>
-				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
+				<li><a href="#" class="login" style="display: none;">Login</a></li>
+				<li><a href="#" class="logout" style="display: none;">Logout</a></li>
 				<li class="active"><a href="#">Events</a></li>
 				<!-- <li><a href="#">Rooms</a></li>
 				<li><a href="#">Screens</a></li> -->
 			</ul>
 		</div>
 	</nav>
+	<ul class="sidenav" id="mobile-nav">
+		<li><a href="#" class="login" style="display: none;">Login</a></li>
+		<li><a href="#" class="logout" style="display: none;">Logout</a></li>
+		<li class="active"><a href="#">Events</a></li>
+		<!-- <li><a href="#">Rooms</a></li>
+		<li><a href="#">Screens</a></li> -->
+	</ul>
 	<br>
 
 	<div class="container">
@@ -84,11 +92,11 @@
 				<h4 class="center  modalTitle">New Event</h4>
 				<div class="col s12">
 					<div class="row">
-						<div class="input-field col s4">
+						<div class="input-field col l4 m12">
 							<input type="text" name="newEventTitle" id="newEventTitle" class="validate">
 							<label for="newEventTitle" id="newEventTitleLabel">Event Title</label>
 						</div>
-						<div class="input-field col s4">
+						<div class="input-field col l4 m12">
 							<select id="newEventLocation">
 								<option value="" disabled selected>Pick the Location</option>
 								<option value="No Location">No Location</option>
@@ -106,7 +114,7 @@
 							</select>
 							<label>Location</label>
 						</div>
-						<div class="input-field col s4">
+						<div class="input-field col l4 m12">
 							<select id="newEventCategory">
 								<option value="" disabled selected>Pick the Category</option>
 								<option value="Admissions">Admissions</option>
@@ -117,19 +125,19 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s3">
+						<div class="input-field col l3 m6">
 							<input type="text" id="newEventStartDate" class="datepicker">
 							<label for="newEventStartDate" id="newEventStartDateLabel">Start Date</label>
 						</div>
-						<div class="input-field col s3">
+						<div class="input-field col l3 m6">
 							<input type="text" id="newEventEndDate" class="datepicker">
 							<label for="newEventEndDate" id="newEventEndDateLabel">End Date</label>
 						</div>
-						<div class="input-field col s3">
+						<div class="input-field col l3 m6">
 							<input type="text" id="newEventStartTime" class="timepicker">
 							<label for="newEventStartTime" id="newEventStartTimeLabel">Start Time</label>
 						</div>
-						<div class="input-field col s3">
+						<div class="input-field col l3 m6">
 							<input type="text" id="newEventEndTime" class="timepicker">
 							<label for="newEventEndTime" id="newEventEndTimeLabel">End Time</label>
 						</div>

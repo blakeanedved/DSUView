@@ -59,6 +59,7 @@ var db, calendar;
 $(document).ready(function () {
 
 	$('select').formSelect()
+	$('.sidenav').sidenav()
 
 	var currentRoles = []
 	var admin = false
@@ -102,16 +103,16 @@ $(document).ready(function () {
 
 	firebase.auth().onAuthStateChanged(function (user) {
 		if (user) {
-			$('#login').hide()
-			$('#logout').show()
+			$('.login').hide()
+			$('.logout').show()
 
 			getRoleStatus(user)
 			setTimeout(function () {
 				getRoleStatus(user)
 			}, 5000)
 		} else {
-			$('#logout').hide()
-			$('#login').show()
+			$('.logout').hide()
+			$('.login').show()
 			admin = false
 			currentRoles = []
 			calendar.setOption('editable', false)
@@ -171,16 +172,12 @@ $(document).ready(function () {
 		editable: false,
 		selectable: false,
 		header: {
-			left: 'prev,next today copyICSLink',
+			left: 'prev,next today,copyICSLink',
 			center: 'title',
 			right: 'clearFilter filter newEvent'
 		},
 		eventRender: function (info) {
 			if (isEventFiltered(info.event)) {
-				$(info.el).addClass('tooltipped')
-				$(info.el).attr('data-position', 'top')
-				$(info.el).attr('data-tooltip', info.event.extendedProps.desc)
-				$(info.el).tooltip()
 				if (admin || currentRoles.indexOf(info.event.extendedProps.category) != -1) {
 					$(info.el).append('<i class="editbtn material-icons">edit</i><i class="removebtn material-icons">close</i>')
 					$(info.el).find(".removebtn").click(function () {
@@ -431,11 +428,11 @@ $(document).ready(function () {
 		return `${WEEK_DAY[calEvent.start.getDay()]}, ${FULL_MONTHS[calEvent.start.getMonth()]} ${calEvent.start.getDate()}${NUM_SUFFIXES[calEvent.start.getDate()]} at ${calEvent.extendedProps.startTime} to ${WEEK_DAY[calEvent.end.getDay()]}, ${FULL_MONTHS[calEvent.end.getMonth()]} ${calEvent.end.getDate()}${NUM_SUFFIXES[calEvent.end.getDate()]} at ${calEvent.extendedProps.endTime}`
 	}
 
-	$('#login').click(function () {
+	$('.login').click(function () {
 		firebase.auth().signInWithRedirect(provider)
 	})
 
-	$('#logout').click(function () {
+	$('.logout').click(function () {
 		if (confirm("Are you sure that you want to log out?")) {
 			firebase.auth().signOut()
 			M.toast({ html: 'You have been logged out.' })

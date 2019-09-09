@@ -17,19 +17,10 @@ $accentOrange:	#E37222;
 $accentPurple:	#93509E;
 
 $navbarHeight: 100px;
-
-%center-vertically {
-	top: 50%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
+$mobileNavBarHeight: 60px;
 
 body {
-    background-image: url(../res/body-hex.jpg);
-    background-size: auto 100%;
-    background-position-x: right;
-	background-repeat: no-repeat;
-	
+    overflow-x: hidden !important;
 	font-family: $title-font-stack !important;
 }
 
@@ -49,41 +40,108 @@ input, textarea {
 	-o-user-select: text;
 }
 
-nav {
-	background-color: $white;
-	height: $navbarHeight !important;
-	line-height: $navbarHeight !important;
+@media only screen and (min-width: 993px){
+	body {
+		background-image: url(../res/body-hex.jpg);
+		background-size: auto 100%;
+		background-position-x: right;
+		background-repeat: no-repeat;
+	}
 
-	.nav-wrapper {
+	nav {
+		background-color: $white;
+		height: $navbarHeight !important;
+		line-height: $navbarHeight !important;
 
-		.brand-logo {
-			@extend %center-vertically;
+		.nav-wrapper {
 
-			height: $navbarHeight - 20px;
-			width: auto;
+			.brand-logo {
+				top: 50%;
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
+
+				height: $navbarHeight - 20px;
+				width: auto;
+			}
+
+			ul {
+				li {
+					a {
+						font-size: 1.3em;
+						color: $darkBlue;
+					}
+				}
+				li.active {
+					a {
+						color: $white;
+						background-color: $darkBlue;
+					}
+				}
+				li:hover {
+					a {
+						background-color: $lightGray;
+					}
+				}
+				li.active:hover {
+					a {
+						background-color: $darkBlue;
+					}
+				}
+			}
 		}
+	}
+}
 
-		ul {
-			li {
-				a {
-					font-size: 1.3em;
-					color: $darkBlue;
-				}
+@media only screen and (max-width: 992px){
+	body {
+		background-image: none;
+	}
+
+	.sidenav-trigger > i {
+		color: $darkBlue;
+		font-size: $mobileNavBarHeight - 30px !important;
+		line-height: $mobileNavBarHeight !important;
+	}
+
+	nav {
+		background-color: $white;
+		height: $mobileNavBarHeight !important;
+		line-height: $mobileNavBarHeight !important;
+
+		.nav-wrapper {
+
+			.brand-logo {
+				top: 50%;
+				left: 50%;
+				-ms-transform: translate(-50%,-50%);
+				transform: translate(-50%,-50%);
+
+				height: $mobileNavBarHeight - 20px;
+				width: auto;
 			}
-			li.active {
-				a {
-					color: $white;
-					background-color: $darkBlue;
+
+			ul {
+				li {
+					a {
+						font-size: 1.3em;
+						color: $darkBlue;
+					}
 				}
-			}
-			li:hover {
-				a {
-					background-color: $lightGray;
+				li.active {
+					a {
+						color: $white;
+						background-color: $darkBlue;
+					}
 				}
-			}
-			li.active:hover {
-				a {
-					background-color: $darkBlue;
+				li:hover {
+					a {
+						background-color: $lightGray;
+					}
+				}
+				li.active:hover {
+					a {
+						background-color: $darkBlue;
+					}
 				}
 			}
 		}
@@ -113,3 +171,4 @@ nav {
 h1, h2, h3, h4, h5, h6 {
 	color: $darkBlue !important;
 }
+

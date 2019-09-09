@@ -1,16 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Crimson+Text&display=swap");
-nav .nav-wrapper .brand-logo {
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
 body {
-  background-image: url(../res/body-hex.jpg);
-  background-size: auto 100%;
-  background-position-x: right;
-  background-repeat: no-repeat;
+  overflow-x: hidden !important;
   font-family: Roboto, Helvetica, Arial, Sans-Serif !important;
 }
 
@@ -30,30 +21,80 @@ input, textarea {
   -o-user-select: text;
 }
 
-nav {
-  background-color: #FFFFFF;
-  height: 100px !important;
-  line-height: 100px !important;
-}
-nav .nav-wrapper .brand-logo {
-  height: 80px;
-  width: auto;
-}
-nav .nav-wrapper ul li a {
-  font-size: 1.3em;
-  color: #004165;
-}
-nav .nav-wrapper ul li.active a {
-  color: #FFFFFF;
-  background-color: #004165;
-}
-nav .nav-wrapper ul li:hover a {
-  background-color: #ADAFAF;
-}
-nav .nav-wrapper ul li.active:hover a {
-  background-color: #004165;
-}
+@media only screen and (min-width: 993px) {
+  body {
+    background-image: url(../res/body-hex.jpg);
+    background-size: auto 100%;
+    background-position-x: right;
+    background-repeat: no-repeat;
+  }
 
+  nav {
+    background-color: #FFFFFF;
+    height: 100px !important;
+    line-height: 100px !important;
+  }
+  nav .nav-wrapper .brand-logo {
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    height: 80px;
+    width: auto;
+  }
+  nav .nav-wrapper ul li a {
+    font-size: 1.3em;
+    color: #004165;
+  }
+  nav .nav-wrapper ul li.active a {
+    color: #FFFFFF;
+    background-color: #004165;
+  }
+  nav .nav-wrapper ul li:hover a {
+    background-color: #ADAFAF;
+  }
+  nav .nav-wrapper ul li.active:hover a {
+    background-color: #004165;
+  }
+}
+@media only screen and (max-width: 992px) {
+  body {
+    background-image: none;
+  }
+
+  .sidenav-trigger > i {
+    color: #004165;
+    font-size: 30px !important;
+    line-height: 60px !important;
+  }
+
+  nav {
+    background-color: #FFFFFF;
+    height: 60px !important;
+    line-height: 60px !important;
+  }
+  nav .nav-wrapper .brand-logo {
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: 40px;
+    width: auto;
+  }
+  nav .nav-wrapper ul li a {
+    font-size: 1.3em;
+    color: #004165;
+  }
+  nav .nav-wrapper ul li.active a {
+    color: #FFFFFF;
+    background-color: #004165;
+  }
+  nav .nav-wrapper ul li:hover a {
+    background-color: #ADAFAF;
+  }
+  nav .nav-wrapper ul li.active:hover a {
+    background-color: #004165;
+  }
+}
 .fc-dayGridMonth-view {
   background-color: #FFFFFF !important;
 }

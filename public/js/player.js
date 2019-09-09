@@ -19,10 +19,33 @@ var player;
 var videos = new Array();
 var videoIndex;
 var videoIDs = new Array()
+var cur;
+var width;
+var interval;
+
+function changeOverlay(cur){
+    $('#overTitle').text(videos[cur].title)
+    $('#overChannel').text(videos[cur].channel)
+    width = $('#overlay').width() + 40
+    $('#overlay').css("left", -width)
+}
+
+function animateOverlay(){
+    $('#overlay').animate({"left": 0});
+    window.setTimeout(function() {
+        $('#overlay').animate({left: -width});
+    }, 3000)
+       
+}
 
 function onPlayerStateChange(event){
     if (event.data == 0){
         videoIndex = player.getPlaylistIndex();
+        window.clearInterval(interval)
+        cur = player.getPlaylistIndex()
+        changeOverlay(cur);
+        animateOverlay()
+        interval = window.setInterval(animateOverlay, 10000)
         if (videoIndex == videoIDs.length - 1){
             videos = new Array()
             videoIDs = new Array()
@@ -31,17 +54,23 @@ function onPlayerStateChange(event){
                     videos.push(doc.data())
                     videoIDs.push(doc.data().url)
                 })
-            })
+            })    
         } else if (videoIndex == 0){
             player.loadPlaylist(videoIDs)
             player.setLoop(true)
+            cur = 0
+            changeOverlay(cur)
+            animateOverlay()
         }
+        
     }
 }
 
 function onPlayerReady(){
     player.cuePlaylist(videoIDs)
     player.setLoop(true)
+    cur = 0;
+    changeOverlay(cur);
 }
 
 
@@ -79,7 +108,7 @@ $(document).ready(function() {
                     'onStateChange': onPlayerStateChange
                 }}
                 );
-                //$('#player').attr('src', 'https://youtube.com/embed/' + videoIDs[0] + '?enablejsapi=1')
+               interval = window.setInterval(animateOverlay, 10000)
             })
             
         } else {

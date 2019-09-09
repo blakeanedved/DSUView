@@ -10,7 +10,11 @@
     <title>Beacom Player</title>
 </head>
 <body>
-    <iframe id="player" src="https://www.youtube.com/embed/5QRv05hAzLQ?enablejsapi=1"></iframe>
+    <iframe id="player" src="https://www.youtube.com/embed/5QRv05hAzLQ?enablejsapi=1" z-index=-1></iframe>
+    <section id="overlay">
+        <h2 id="overTitle">Epic Video</h2>
+        <p id="overChannel">Neat </p>
+    </section>
 
     <script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
 	<script defer src="https://www.gstatic.com/firebasejs/6.5.0/firebase-auth.js"></script>

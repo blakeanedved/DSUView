@@ -1,0 +1,26 @@
+['BIT112 (Beacom Institute of Technology Room 112)', 'BIT117 (Beacom Institute of Technology Room 117)', 'BIT106 (Beacom Lobby)', 'BIT202 (Beacom Institute of Technology Room 202)', 'BIT235 (Beacom Institute of Technology Room 235)', 'BIT213 (Beacom Institute of Technology Room 213)', 'BIT231 (Beacom Institute of Technology Room 231)', 'BIT233 (Beacom Institute of Technology Room 233)', 'EH100 (East Hall Room 100)', 'EH105 (East Hall Room 105)', 'EH001 (East Hall Room 001)', 'EH204 (East Hall Room 204)', 'TCB203 (Tunheim Classroom Building Room 203)', 'TCB109 (Tunheim Classroom Building Room 109)', 'TCB111 (Tunheim Classroom Building Room 111)']
+
+
+<optgroup label="Beacom Institute of Technology">
+	<option value="BIT112 (Beacom Institute of Technology Room 112)">BIT112 (Beacom Institute of Technology Room 112)</option>
+	<option value="BIT117 (Beacom Institute of Technology Room 117)">BIT117 (Beacom Institute of Technology Room 117)</option>
+	<option value="BIT106 (Beacom Lobby)">BIT106 (Beacom Lobby)</option>
+	<option value="BIT202 (Beacom Institute of Technology Room 202)">BIT202 (Beacom Institute of Technology Room 202)</option>
+	<option value="BIT235 (Beacom Institute of Technology Room 235)">BIT235 (Beacom Institute of Technology Room 235)</option>
+	<option value="BIT213 (Beacom Institute of Technology Room 213)">BIT213 (Beacom Institute of Technology Room 213)</option>
+	<option value="BIT231 (Beacom Institute of Technology Room 231)">BIT231 (Beacom Institute of Technology Room 231)</option>
+	<option value="BIT233 (Beacom Institute of Technology Room 233)">BIT233 (Beacom Institute of Technology Room 233)</option>
+</optgroup>
+
+<optgroup label="East Hall">
+	<option value="EH100 (East Hall Room 100)">EH100 (East Hall Room 100)</option>
+	<option value="EH105 (East Hall Room 105)">EH105 (East Hall Room 105)</option>
+	<option value="EH001 (East Hall Room 001)">EH001 (East Hall Room 001)</option>
+	<option value="EH204 (East Hall Room 204)">EH204 (East Hall Room 204)</option>
+</optgroup>
+
+<optgroup label="Tunheim Classroom Building">
+	<option value="TCB203 (Tunheim Classroom Building Room 203)">TCB203 (Tunheim Classroom Building Room 203)</option>
+	<option value="TCB109 (Tunheim Classroom Building Room 109)">TCB109 (Tunheim Classroom Building Room 109)</option>
+	<option value="TCB111 (Tunheim Classroom Building Room 111)">TCB111 (Tunheim Classroom Building Room 111)</option>
+</optgroup>

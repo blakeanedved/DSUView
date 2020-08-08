@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const useGlobalStyleSheet = (id: string) => {
   const [stylesheet, setStylesheet] = useState<CSSStyleSheet>();
@@ -38,7 +38,7 @@ const useGlobalStyleSheet = (id: string) => {
   };
 
   useEffect(() => {
-    const tempStylesheet: HTMLStyleElement = document.createElement("style");
+    const tempStylesheet: HTMLStyleElement = document.createElement('style');
     tempStylesheet.id = id;
     document.head.appendChild(tempStylesheet);
     setTimeout(() => {
@@ -51,6 +51,7 @@ const useGlobalStyleSheet = (id: string) => {
     return () => {
       document.head.removeChild(tempStylesheet);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { addRule, updateRule, removeRule, sheetMounted };

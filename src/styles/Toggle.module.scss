@@ -1,0 +1,37 @@
+.Label {
+  cursor: pointer;
+  background: grey;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.Button {
+  position: absolute;
+  transition: 0.2s;
+  background: #fff;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  color: black;
+}
+
+.ButtonActive {
+  position: absolute;
+  transition: 0.2s;
+  background: #fff;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  transform: translateX(-100%);
+  color: black;
+}
+
+.CenterContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: auto;
+  width: auto;
+  transform: translate(-50%, -50%);
+  display: block;
+
+  & > * {
+    display: block;
+  }
+}

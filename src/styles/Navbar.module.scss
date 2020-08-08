@@ -1,0 +1,54 @@
+.Navbar {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  -webkit-box-shadow: 0px 0px 62px 14px rgba(0, 0, 0, 0.17);
+  -moz-box-shadow: 0px 0px 62px 14px rgba(0, 0, 0, 0.17);
+  box-shadow: 0px 0px 62px 14px rgba(0, 0, 0, 0.17);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 2rem);
+  z-index: 7;
+}
+
+.Left {
+  height: 100%;
+  display: flex;
+}
+
+.Right {
+  float: right;
+  height: 100%;
+  display: flex;
+}
+
+.Brand {
+  font-size: 2em;
+  height: 100%;
+  line-height: 2em;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.Link {
+  font-size: 1.2em;
+  font-family: inherit;
+  border: 0;
+  background: none;
+  height: 100%;
+  cursor: pointer;
+  margin-left: 10px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 64px;
+  padding: 0 10px;
+}
+
+.VerticalCenter {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+}

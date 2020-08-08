@@ -1,18 +1,30 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export interface ITheme {
   body: string;
   color: string;
+  navbar: string;
+  navbarColor: string;
+  activeNavbarLink: string;
+  content: string;
 }
 
 const themes: { [name: string]: ITheme } = {
   dark: {
-    body: "#282828",
-    color: "#FFFFFF",
+    body: '#202020',
+    color: '#FFFFFF',
+    navbar: '#363636',
+    navbarColor: '#FFFFFF',
+    activeNavbarLink: '#292929',
+    content: '#242424',
   },
   light: {
-    body: "#FFFFFF",
-    color: "#000000",
+    body: '#EEEEEE',
+    color: '#000000',
+    navbar: '#363636',
+    navbarColor: '#FFFFFF',
+    activeNavbarLink: '#292929',
+    content: '#FFFFFF',
   },
 };
 

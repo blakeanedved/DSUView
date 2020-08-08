@@ -19,7 +19,9 @@
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "styled-components": "^5.1.1",
+    "react-toggle": "^4.1.1",
+    "react-transition-group": "^4.4.1",
+    "react-use": "^15.3.3",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -30,6 +32,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "browserslist": {
     "production": [

@@ -1,15 +1,15 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { /* useContext,*/ useMemo, useState } from 'react';
 import FullCalendar, { DatesSetArg, DateSelectArg } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { EventDropArg } from '@fullcalendar/interaction';
-import { useCss } from 'react-use';
+// import { useCss } from 'react-use';
 import Content from './Content';
 import Modal from './Modal';
 import useDate from '../hooks/useDate';
 import useFilter from '../hooks/useFilter';
-import { Theme } from '../themes';
+// import { Theme } from '../themes';
 import { db } from '../firebase';
-import styles from '../styles/EventSchedule.module.scss';
+// import styles from '../styles/EventSchedule.module.scss';
 import '../styles/Scheduler.scss';
 import useCollection from '../hooks/useCollection';
 
@@ -78,7 +78,6 @@ const Scheduler = () => {
   // });
 
   return (
-    // <div className={className}>
     <>
       <Modal active={modalActive}>
         <h1>Gamertime</h1>
@@ -108,7 +107,6 @@ const Scheduler = () => {
         />
       </Content>
     </>
-    // </div>
   );
 };
 

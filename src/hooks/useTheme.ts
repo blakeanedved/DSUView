@@ -5,19 +5,13 @@ const useTheme = (initialValue: ITheme) => {
   const [theme, setThemeState] = useState(initialValue);
   const [themeMounted, setThemeMounted] = useState(false);
 
-  const setTheme = (value: ITheme) => {
-    document.body.style.background = value.body;
-    document.body.style.color = value.color;
-    setThemeState(value);
-  };
-
   const toggleTheme = (value: boolean | undefined = undefined) => {
     if (value === undefined) {
-      if (theme === themes.dark) setTheme(themes.light);
-      else if (theme === themes.light) setTheme(themes.dark);
+      if (theme === themes.dark) setThemeState(themes.light);
+      else if (theme === themes.light) setThemeState(themes.dark);
     } else {
-      if (value === true) setTheme(themes.dark);
-      else setTheme(themes.light);
+      if (value === true) setThemeState(themes.dark);
+      else setThemeState(themes.light);
     }
   };
 
@@ -26,7 +20,7 @@ const useTheme = (initialValue: ITheme) => {
     document.body.style.color = theme.color;
     setThemeMounted(true);
     return () => setThemeMounted(false);
-  }, []);
+  }, [theme]);
 
   return { theme, toggleTheme, themeMounted };
 };

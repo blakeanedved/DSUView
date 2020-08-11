@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { createPortal } from 'react-dom';
 import Content from './Content';
@@ -11,6 +11,8 @@ export interface ModalProps {
 
 const Modal = ({ active, children }: ModalProps) => {
   const { coverTransitionStyles, modalTransitionStyles } = useModalStyles();
+  const coverRef = useRef(null);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     document.body.style.overflowY = active ? 'hidden' : 'scroll';
@@ -19,6 +21,7 @@ const Modal = ({ active, children }: ModalProps) => {
   return createPortal(
     <>
       <CSSTransition
+        nodeRef={coverRef}
         in={active}
         timeout={500}
         unmountOnExit
@@ -26,6 +29,7 @@ const Modal = ({ active, children }: ModalProps) => {
         classNames={{ ...coverTransitionStyles }}
       >
         <div
+          ref={coverRef}
           style={{
             background: 'rgba(0, 0, 0, 1)',
             width: '100vw',
@@ -50,6 +54,7 @@ const Modal = ({ active, children }: ModalProps) => {
         }}
       >
         <CSSTransition
+          nodeRef={modalRef}
           in={active}
           timeout={300}
           unmountOnExit
@@ -57,6 +62,7 @@ const Modal = ({ active, children }: ModalProps) => {
           classNames={{ ...modalTransitionStyles }}
         >
           <Content
+            nodeRef={modalRef}
             style={{
               width: 500,
               height: 'auto',

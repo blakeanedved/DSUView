@@ -1,17 +1,24 @@
-import React, { ReactNode, useContext, CSSProperties } from 'react';
+import React, {
+  ReactNode,
+  useContext,
+  CSSProperties,
+  MutableRefObject,
+} from 'react';
 import { Theme } from '../themes';
 
 export interface ContentProps {
   children?: ReactNode;
   style?: CSSProperties;
   className?: string;
+  nodeRef?: MutableRefObject<any>;
 }
 
-const Content = ({ children, style, className = undefined }: ContentProps) => {
+const Content = ({ children, style, className, nodeRef }: ContentProps) => {
   const { theme } = useContext(Theme);
 
   return (
     <div
+      ref={nodeRef}
       className={className}
       style={{
         margin: 'auto',

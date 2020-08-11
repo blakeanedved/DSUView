@@ -1,0 +1,74 @@
+.CoverEnter {
+  opacity: 0;
+  display: block;
+}
+
+.CoverEnterActive {
+  opacity: 0.8;
+  transition: opacity 200ms;
+  display: block;
+}
+
+.CoverEnterDone {
+  opacity: 0.8;
+  display: block;
+}
+
+.CoverExit {
+  opacity: 0.8;
+  display: block;
+}
+
+.CoverExitActive {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.CoverExitDone {
+  opacity: 0;
+  display: none;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ModalEnter {
+  display: block;
+}
+
+.ModalEnterActive {
+  animation-name: bounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  animation-fill-mode: forwards;
+  display: block;
+}
+
+.ModalEnterDone {
+  display: block;
+}
+
+.ModalExit {
+  display: block;
+}
+
+.ModalExitActive {
+  animation-name: bounceIn;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  animation-direction: reverse;
+  display: block;
+}
+
+.ModalExitDone {
+  display: none;
+}

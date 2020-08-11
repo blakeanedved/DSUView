@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import themes, { ITheme } from "../themes";
+import { useState, useEffect } from 'react';
+import themes, { ITheme } from '../themes';
 
 const useTheme = (initialValue: ITheme) => {
   const [theme, setThemeState] = useState(initialValue);

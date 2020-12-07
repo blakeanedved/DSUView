@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /events/{document=**} {
+    
+    	function validTitle(title){
+      	return title.size() >= 8;
+      }
+    
+    	function validTimeFrame(start, end){
+      	return end > start
+      }
+      
+      function validColor(color){
+      	return (color.size() == 7 && color.matches('#[0-9a-fA-F]{6}'))
+      }
+      
+      function validDesc(desc){
+      	return desc.size() > 0
+      }
+      
+      function validTime(t){
+      	return t.matches('((1[0-2]|0?[1-9]):([0-5][0-9]) ?([AaPp][Mm]))')
+      }
+
+      function validLocation(location){
+        return location in ['No Location', 'TC (Trojan Center)', 'TCU (Trojan Center Underground)', 'BIT112 (Beacom Institute of Technology Room 112)', 'BIT117 (Beacom Institute of Technology Room 117)', 'BIT106 (Beacom Lobby)', 'BIT202 (Beacom Institute of Technology Room 202)', 'BIT235 (Beacom Institute of Technology Room 235)', 'BIT213 (Beacom Institute of Technology Room 213)', 'BIT231 (Beacom Institute of Technology Room 231)', 'BIT233 (Beacom Institute of Technology Room 233)', 'EH100 (East Hall Room 100)', 'EH105 (East Hall Room 105)', 'EH001 (East Hall Room 001)', 'EH204 (East Hall Room 204)', 'TCB203 (Tunheim Classroom Building Room 203)', 'TCB109 (Tunheim Classroom Building Room 109)', 'TCB111 (Tunheim Classroom Building Room 111)', 'DPP (Dakota Prarie Playhouse)', 'FH (Field House)']
+      }
+
+      function validCategory(category){
+        return category in ['Computer Club', 'Defensive Security', 'Offensive Security', 'Programming Club']
+      }
+      
+      function isAdmin(uid){
+      	return uid in get(/databases/$(database)/documents/privileged-users/Admins).data.superusers
+      }
+      
+      function isSuperuserOfCategory(category, uid){
+      	return uid in get(/databases/$(database)/documents/privileged-users/$(category)).data.superusers
+      }
+    
+    	allow read: if true;
+      allow write: if (isSuperuserOfCategory(request.resource.data.category, request.auth.uid) || isAdmin(request.auth.uid))
+      							&& validTitle(request.resource.data.title)
+                    && validTimeFrame(request.resource.data.start, request.resource.data.end)
+                    && validColor(request.resource.data.color)
+                    && validColor(request.resource.data.textColor)
+                    && validDesc(request.resource.data.extendedProps.desc)
+                    && validTime(request.resource.data.extendedProps.startTime)
+                    && validTime(request.resource.data.extendedProps.endTime)
+                    && validLocation(request.resource.data.extendedProps.location)
+                    && validCategory(request.resource.data.extendedProps.category);
+      allow delete: if (isSuperuserOfCategory(resource.data.category, request.auth.uid) || isAdmin(request.auth.uid));
+    }
+    match /privileged-users/{document=**} {
+      allow read,write: if false;
+    }
+    match /users/{document=**} {
+    	allow read: if request.auth.uid == resource.id;
+      allow write: if false;
+    }
+    match /newevents/{document=**} {
+    	allow read, write: if true;
+    }
+  }
+}

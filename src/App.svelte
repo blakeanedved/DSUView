@@ -1,30 +1,19 @@
 <script lang="ts">
-	export let name: string;
+  import FullCalendar from "svelte-fullcalendar";
+  import dayGridPlugin from "@fullcalendar/daygrid";
+  import interactionPlugin from "@fullcalendar/interaction";
+
+  let options = {
+    initialView: "dayGridMonth",
+    events: [
+      { title: "event 1", date: "2020-12-12" },
+      { title: "event 2", date: "2020-12-25" },
+    ],
+    plugins: [dayGridPlugin, interactionPlugin],
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+  };
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<FullCalendar {options} />
